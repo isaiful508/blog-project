@@ -1,9 +1,14 @@
 import express from 'express';
-import { register, login } from './user.controller';
+import { UserControllers } from './user.controller';
+import validateRequest from '../../middlewares/validateRequest';
+import { registerValidationSchema } from './user.validation';
 
 const router = express.Router();
 
-router.post('/auth/register', register); // Register endpoint
-router.post('/login', login);       // Login endpoint
+router.post(
+    '/auth/register',
+    validateRequest(registerValidationSchema),
+    UserControllers.registerUser);
+
 
 export const UserRoutes = router;

@@ -11,7 +11,10 @@ const userSchema = new Schema<IUser>(
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    versionKey: false
+  }
 );
 
 export const User = model<IUser>('User', userSchema);
