@@ -1,15 +1,16 @@
 import {  UserServices } from './user.service';
-import { registerValidationSchema} from './user.validation';
+import { loginValidationSchema, registerValidationSchema} from './user.validation';
 import config from '../../config';
 import catchAsync from '../../../utils/catchAsync';
 import sendResponse from '../../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
+import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = config.jwt_secret as string;
 
 const registerUser = catchAsync(async (req, res) => {
   const validatedData = registerValidationSchema.parse(req.body);
-  console.log({validatedData});
+
   const result = await UserServices.registerUserIntoDB(validatedData);
 
   sendResponse(res, {
@@ -20,28 +21,33 @@ const registerUser = catchAsync(async (req, res) => {
   });
 });
 
-// export const login = async (req: Request, res: Response): Promise<void> => {
-//   try {
-//     // Validate the request body with Zod
-//     const validatedData = loginValidationSchema.parse(req.body);
 
-//     const user = await loginUser(validatedData.email, validatedData.password);
-//     if (!user) {
-//       res.status(401).json({ success: false, message: 'Invalid credentials', statusCode: 401 });
-//       return;
-//     }
 
-//     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-//     res.status(200).json({ success: true, message: 'Login successful', statusCode: 200, data: { token } });
-//   } catch (error) {
-//     if (error instanceof z.ZodError) {
-//       res.status(400).json({ success: false, message: 'Validation error', statusCode: 400, error: error.errors });
-//     } else {
-//       res.status(500).json({ success: false, message: error.message, statusCode: 500 });
-//     }
-//   }
-// };
+export const loginUser = catchAsync(async (req, res) => {
+  const validatedData = loginValidationSchema.parse(req.body);
+
+  const user = await UserServices.loginUser(validatedData.email, validatedData.password);
+
+  if (!user) {
+    throw {
+      statusCode: 401,
+      success: false,
+      message: 'Invalid credentials',
+    };
+  }
+
+  const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'Login successful',
+    data: { token },
+  });
+});
+
 
 export const UserControllers = {
   registerUser,
+  loginUser
 };

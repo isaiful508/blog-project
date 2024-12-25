@@ -20,4 +20,5 @@ export const loginUser = async (email: string, password: string): Promise<IUser 
 
 export const UserServices = {
   registerUserIntoDB,
+  loginUser
 }
