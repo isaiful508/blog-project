@@ -19,6 +19,25 @@ import { BlogServices } from './blog.service';
   });
 
 
+
+  export const updateBlog = catchAsync(async (req, res) => {
+    const blogId = req.params.id;
+    const { title, content } = req.body;
+    const userId = req.user?.id;
+  
+    // Update the blog
+    const updatedBlog = await BlogServices.updateBlogInDb(blogId, { title, content }, userId);
+  
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'Blog updated successfully',
+      data: updatedBlog,
+    });
+  });
+
+
 export const BlogControllers = {
-  createBlog
+  createBlog,
+  updateBlog
 };

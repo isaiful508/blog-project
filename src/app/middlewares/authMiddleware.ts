@@ -13,7 +13,6 @@ const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunctio
   try {
     // Get token from headers
     const token = req.headers.authorization?.split(' ')[1];
-    console.log({ user : req.user});
     if (!token) {
       return res.status(401).json({
         success: false,
