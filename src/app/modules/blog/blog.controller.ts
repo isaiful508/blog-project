@@ -50,8 +50,28 @@ import { BlogServices } from './blog.service';
     });
   });
 
+  export const getAllBlogs = catchAsync(async (req, res) => {
+    const { search, sortBy, sortOrder, filter } = req.query;
+  
+    const blogs = await BlogServices.getAllBlogsFromDb({
+      search: search as string,
+      sortBy: sortBy as string,
+      sortOrder: sortOrder as string,
+      filter: filter as string,
+    });
+  
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'Blogs fetched successfully',
+      data: blogs,
+    });
+  });
+
+
 export const BlogControllers = {
   createBlog,
   updateBlog,
-  deleteBlog
+  deleteBlog,
+  getAllBlogs,
 };

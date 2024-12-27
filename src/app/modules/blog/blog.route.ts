@@ -12,4 +12,6 @@ router.patch('/blogs/:id', authMiddleware,validateRequest(updateBlogValidationSc
 
 router.delete('/blogs/:id', authMiddleware, BlogControllers.deleteBlog);
 
+router.get('/blogs', BlogControllers.getAllBlogs);
+
 export const BlogRoutes = router;
