@@ -10,4 +10,6 @@ router.post('/blogs', authMiddleware, validateRequest(blogValidationSchema), Blo
 
 router.patch('/blogs/:id', authMiddleware,validateRequest(updateBlogValidationSchema), BlogControllers.updateBlog);
 
+router.delete('/blogs/:id', authMiddleware, BlogControllers.deleteBlog);
+
 export const BlogRoutes = router;

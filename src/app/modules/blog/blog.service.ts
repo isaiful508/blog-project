@@ -34,7 +34,23 @@ export const updateBlogInDb = async (
   return updatedBlog;
 };
 
+
+export const deleteBlogFromDb = async (blogId: string, userId: string) => {
+  const blog = await Blog.findOneAndDelete({
+    _id: new Types.ObjectId(blogId),
+    author: new Types.ObjectId(userId),
+  });
+
+  if (!blog) {
+    throw new Error('Blog not found or unauthorized access');
+  }
+
+  return blog;
+};
+
+
 export const BlogServices = {
   createBlogIntoDb,
-  updateBlogInDb
+  updateBlogInDb,
+  deleteBlogFromDb,
 }

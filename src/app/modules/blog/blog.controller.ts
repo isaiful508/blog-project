@@ -36,8 +36,22 @@ import { BlogServices } from './blog.service';
     });
   });
 
+  export const deleteBlog = catchAsync(async (req, res) => {
+
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    await BlogServices.deleteBlogFromDb(id, userId);
+  
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'Blog Deleted successfully',
+    });
+  });
 
 export const BlogControllers = {
   createBlog,
-  updateBlog
+  updateBlog,
+  deleteBlog
 };
