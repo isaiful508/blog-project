@@ -9,7 +9,7 @@ interface AuthRequest extends Request {
   user?: JwtPayload | null;
 }
 
-const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
+const userAuthMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     // Get token from headers
     const token = req.headers.authorization?.split(' ')[1];
@@ -48,4 +48,18 @@ const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunctio
   }
 };
 
-export default authMiddleware;
+export const adminAuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({
+      success: false,
+      message: 'Access denied. Admins only.',
+    });
+  }
+  next();
+};
+
+
+export const  authMiddleware = {
+  userAuthMiddleware,
+  adminAuthMiddleware,
+};

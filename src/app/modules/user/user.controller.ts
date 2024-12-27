@@ -46,8 +46,24 @@ export const loginUser = catchAsync(async (req, res) => {
   });
 });
 
+export const blockUser = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+
+  // Call the service to block the user
+  await UserServices.blockUserInDb(userId);
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'User blocked successfully',
+  });
+});
+
+
+
 
 export const UserControllers = {
   registerUser,
-  loginUser
+  loginUser,
+  blockUser,
 };

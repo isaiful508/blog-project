@@ -83,6 +83,17 @@ export const getAllBlogsFromDb = async ({
   return blogs;
 };
 
+export const deleteBlogByAdminFromDb = async (blogId: string) => {
+  if (!Types.ObjectId.isValid(blogId)) {
+    throw new Error('Invalid blog ID');
+  }
+
+  const blog = await Blog.findByIdAndDelete(blogId);
+
+  if (!blog) {
+    throw new Error('Blog not found');
+  }
+};
 
 
 export const BlogServices = {
@@ -90,4 +101,5 @@ export const BlogServices = {
   updateBlogInDb,
   deleteBlogFromDb,
   getAllBlogsFromDb,
+  deleteBlogByAdminFromDb,
 }

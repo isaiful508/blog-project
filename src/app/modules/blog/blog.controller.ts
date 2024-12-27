@@ -68,10 +68,23 @@ import { BlogServices } from './blog.service';
     });
   });
 
+  export const deleteBlogByAdmin = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    
+    await BlogServices.deleteBlogByAdminFromDb(id);
+  
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'Blog deleted successfully',
+    });
+  });
+  
 
 export const BlogControllers = {
   createBlog,
   updateBlog,
   deleteBlog,
   getAllBlogs,
+  deleteBlogByAdmin,
 };
