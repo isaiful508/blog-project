@@ -2,6 +2,7 @@ import { User } from './user.model';
 import { IUser } from './user.interface';
 import { hashPassword, comparePassword } from './user.utils';
 import { Types } from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
 
  const registerUserIntoDB = async (data: Partial<IUser>): Promise<IUser> => {
   const { name, email, password } = data;
@@ -20,19 +21,22 @@ export const loginUser = async (email: string, password: string): Promise<IUser 
 };
 
 export const blockUserInDb = async (userId: string) => {
-  // Ensure userId is a valid MongoDB ObjectId
+
   if (!Types.ObjectId.isValid(userId)) {
     throw new Error('Invalid user ID');
   }
 
   const user = await User.findById(userId);
 
-  // Check if the user exists
+
   if (!user) {
-    throw new Error('User not found');
+    throw {
+          statusCode: StatusCodes.UNAUTHORIZED,
+          message: "User not found",
+          error: { details: "User did not match" },
+        };
   }
 
-  // Update the isBlocked property
   user.isBlocked = true;
   await user.save();
 };

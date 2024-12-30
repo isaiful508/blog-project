@@ -30,11 +30,12 @@ export const loginUser = catchAsync(async (req, res) => {
 
   if (!user) {
     throw {
-      statusCode: 401,
-      success: false,
-      message: 'Invalid credentials',
+      statusCode: StatusCodes.UNAUTHORIZED,
+      message: "User not found",
+      error: { details: "Email or password did not match" },
     };
   }
+
 
   const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 
