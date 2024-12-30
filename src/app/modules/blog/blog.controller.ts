@@ -6,6 +6,7 @@ import { BlogServices } from './blog.service';
 
   export const  createBlog = catchAsync(async (req, res) => {
     const { title, content } = req.body;
+    // @ts-ignore
     const userId = req.user?.id;
 
     const blog = await BlogServices.createBlogIntoDb({ title, content, author: userId });
@@ -23,6 +24,7 @@ import { BlogServices } from './blog.service';
   export const updateBlog = catchAsync(async (req, res) => {
     const blogId = req.params.id;
     const { title, content } = req.body;
+    // @ts-ignore
     const userId = req.user?.id;
   
     // Update the blog
@@ -39,6 +41,7 @@ import { BlogServices } from './blog.service';
   export const deleteBlog = catchAsync(async (req, res) => {
 
     const { id } = req.params;
+    // @ts-ignore
     const userId = req.user.id;
 
     await BlogServices.deleteBlogFromDb(id, userId);

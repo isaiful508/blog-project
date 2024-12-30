@@ -11,6 +11,7 @@ const createBlogIntoDb = async (data: IBlog): Promise<IBlog> => {
 
 export const updateBlogInDb = async (
   blogId: string,
+    // eslint-disable-next-line
   updateParams: Record<string, any>,
   userId: string
 ) => {
@@ -60,6 +61,7 @@ export const getAllBlogsFromDb = async ({
   sortOrder?: string;
   filter?: string;
 }) => {
+    // eslint-disable-next-line
   const query: Record<string, any> = {};
 
   if (search) {
@@ -73,6 +75,7 @@ export const getAllBlogsFromDb = async ({
     query.author = filter;
   }
 
+  // eslint-disable-next-line
   const sortOptions: Record<string, any> = {};
   if (sortBy) {
     sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1;

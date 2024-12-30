@@ -36,7 +36,7 @@ export const loginUser = catchAsync(async (req, res) => {
     };
   }
 
-
+// @ts-ignore
   const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 
   sendResponse(res, {

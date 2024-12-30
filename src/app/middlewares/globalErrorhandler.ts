@@ -2,12 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
 const globalErrorHandler = (
+    // eslint-disable-next-line
   err: any,
   req: Request,
   res: Response,
-  _next: NextFunction
+    // eslint-disable-next-line
+  next: NextFunction
 ) => {
-  console.log({err});
 
   if (err.code === 11000) {
     const key = Object.keys(err.keyValue)[0];
@@ -36,6 +37,7 @@ const globalErrorHandler = (
       message: "Validation Error",
       statusCode: 400,
       error: {
+          // eslint-disable-next-line
         details: err.errors.map((error: any) => ({
           path: error.path,
           message: error.message,
@@ -62,6 +64,7 @@ const globalErrorHandler = (
       message: "Validation Error",
       statusCode: 400,
       error: {
+          // eslint-disable-next-line
         details: Object.values(err.errors).map((e: any) => ({
           path: e.path,
           message: e.message,

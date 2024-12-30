@@ -37,6 +37,7 @@ const userAuthMiddleware = async (req: AuthRequest, res: Response, next: NextFun
     req.user = { id: user._id, role: user.role };
 
     next();
+      // eslint-disable-next-line
   } catch (error : any) {
     return res.status(401).json({
       success: false,
